@@ -9,10 +9,24 @@ jobs:
       - run:
           name: "Push to squarespace"
           command: |
+            # The '@' in the email needs to be url encoded, this is a quick way to accomplish that
             SQUARESPACE_EMAIL="$(echo $SQUARESPACE_EMAIL | sed 's/@/%40/g')"
-            git push \
-              https://$SQUARESPACE_EMAIL:$SQUARESPACE_PASSWORD@syracuse-tenants-union.squarespace.com/template.git \
-              master
+
+            # Define a helper to redact passwords from the output logs as the circleci deploy logs
+            # are public, after all!
+            function redact_password {
+              /bin/bash -c "$@" 2>&1 | sed "s/$SQUARESPACE_PASSWORD/<redacted>/g"
+            }
+
+            redact_password 'git remote add squarespace \
+              https://$SQUARESPACE_EMAIL:$SQUARESPACE_PASSWORD@syracuse-tenants-union.squarespace.com/template.git'
+
+            # Pull any changes, if the resulting merge is complex bail and let a developer resolve
+            # it locally.
+            redact_password 'git fetch squarespace && git merge --ff-only squarespace/master'
+
+            # Deploy changes to squarespace
+            redact_password 'git push squarespace master'
 
 workflows:
   version: 2
