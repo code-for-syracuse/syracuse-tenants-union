@@ -1,0 +1,22 @@
+version: 2
+
+jobs:
+  push-to-squarespace:
+    docker:
+      - image: circleci/node:10.7
+    steps:
+      - checkout
+      - run:
+          name: "Push to squarespace"
+          command: |
+            git remote add squarespace https://$SQUARESPACE_EMAIL:$SQUARESPACE_PASSWORD@syracuse-tenants-union.squarespace.com/template.git
+            git push squarespace master
+
+workflows:
+  version: 2
+  ci-workflow:
+    jobs:
+      - push-to-squarespace:
+          filters:
+            branches:
+              only: master
