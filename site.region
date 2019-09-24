@@ -60,7 +60,6 @@
       <header class="Header Header--top">
         <div class="Header-inner Header-inner--top" data-nc-group="top">
           <div data-nc-container="top-left">
-
             <div class="Header-search" data-nc-element="search">
               <form class="Header-search-form" action="/search" method="get">
                 <input class="Header-search-form-input" name="q" type="text" spellcheck="false" value="" autocomplete="off" placeholder="{localizedStrings.search}" />
@@ -74,7 +73,6 @@
                 </button>
               </form>
             </div>
-
           </div>
           <div data-nc-container="top-center">
             {.if userAccountsContext.showSignInLink}
@@ -95,9 +93,7 @@
             {.end}
           </div>
           <div data-nc-container="top-right">
-
             {@|apply cart.block}
-
           </div>
         </div>
       </header>
@@ -135,6 +131,18 @@
           </div>
         </header>
 
+        <div class="TranslateBar">
+          <div class="Header-inner">
+            <div class="TranslateBar-inner">
+              <label for="#google_translate_element">Translate this site:</label>
+              <div
+                class="TranslateBar--google-translate"
+                id="google_translate_element"
+              ></div>
+            </div>
+          </div>
+        </div>
+
         <div class="Content-outer">
           {.if collection}{.if item}{.or}{.equal? collection.typeName "index"}{.or}
             {.equal? collection.typeName "page"}
@@ -161,7 +169,6 @@
               </section>
             {.end}
           </main>
-
         </div>
       </div>
 
@@ -171,10 +178,18 @@
 
     <squarespace:script src="site-bundle.js" combo="false" />
 
+
+    <script>
+
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en'
+      }, 'google_translate_element');
+    }
+
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></script></script></div>
+
     {squarespace-footers}
-  <p> Hello World! </p>
-  <p> Alice </p>
-  <p> Tom was here </p>
-  <p>Ryan S.</p>
   </body>
 </html>
